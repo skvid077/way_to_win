@@ -7,9 +7,10 @@ from src.database.models.client import Client
 
 
 async def reload_db():
-    async with async_engine.begin() as conn:
+    async with async_engine.connect() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
+        await conn.commit()
 
 
 if __name__ == '__main__':
